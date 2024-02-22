@@ -12,9 +12,9 @@ interface MyContextProviderProps {
 export const MyContext = createContext<MyContextType | undefined>(undefined);
 
 interface MyInitialState {
-  bill: number | undefined;
-  people: number | undefined;
-  percent: number | undefined;
+  bill: number;
+  people: number;
+  percent: number;
   tipPerson: number;
   totalPerson: number;
 }
@@ -39,7 +39,7 @@ export enum ActionType {
 
 export interface Action {
   type: ActionType;
-  payload?: number;
+  payload: number;
 }
 
 const myReducer: React.Reducer<MyInitialState, Action> = (state, action) => {

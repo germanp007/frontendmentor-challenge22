@@ -148,11 +148,11 @@ const App = () => {
           <div className="flex justify-between px-6 py-4">
             <button
               className="w-full bg-StrongCyan text-VeryDarkCyan uppercase"
-              onClick={() =>
-                contextValue?.dispatch({
-                  type: ActionType.Reset,
-                })
-              }
+              // onClick={() =>
+              //   contextValue?.dispatch({
+              //     type: ActionType.Reset,
+              //   })
+              // }
             >
               Reset
             </button>
