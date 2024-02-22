@@ -1,8 +1,6 @@
-import React, { ReactNode, createContext, useReducer, useState } from "react";
+import React, { ReactNode, createContext, useReducer } from "react";
 
 export interface MyContextType {
-  value: number;
-  setValue: React.Dispatch<React.SetStateAction<number>>;
   state: MyInitialState;
   dispatch: React.Dispatch<Action>;
 }
@@ -14,17 +12,17 @@ interface MyContextProviderProps {
 export const MyContext = createContext<MyContextType | undefined>(undefined);
 
 interface MyInitialState {
-  bill: number | null;
-  people: number | null;
-  percent: number | string | null;
+  bill: number | undefined;
+  people: number | undefined;
+  percent: number | undefined;
   tipPerson: number;
   totalPerson: number;
 }
 
 const initialState: MyInitialState = {
-  bill: null,
-  people: null,
-  percent: null,
+  bill: 0,
+  people: 0,
+  percent: 0,
   tipPerson: 0,
   totalPerson: 0,
 };
@@ -41,7 +39,7 @@ export enum ActionType {
 
 export interface Action {
   type: ActionType;
-  payload: number | string | null;
+  payload?: number;
 }
 
 const myReducer: React.Reducer<MyInitialState, Action> = (state, action) => {
@@ -64,15 +62,31 @@ const myReducer: React.Reducer<MyInitialState, Action> = (state, action) => {
     case ActionType.UpdateTipPerson:
       return {
         ...state,
-        tipPerson: (state.bill || 0 * (state.percent / 100)) / +state.people,
+        tipPerson: action.payload,
       };
-    case ActionType.UpdateTotalPerson
+    case ActionType.UpdateTotalPerson:
       return {
         ...state,
-        totalPerson: state.bill + state.
-      }
+        totalPerson: action.payload,
+      };
+    case ActionType.Reset:
+      return {
+        bill: 0,
+        percent: 0,
+        people: 0,
+        tipPerson: 0,
+        totalPerson: 0,
+      };
 
     default:
+      return {
+        bill: 0,
+        percent: 0,
+        people: 0,
+        tipPerson: 0,
+        totalPerson: 0,
+      };
+
       return state;
   }
 };
@@ -82,13 +96,10 @@ const MyContextProvider: React.FC<MyContextProviderProps> = ({ children }) => {
     myReducer,
     initialState
   );
-  const [value, setValue] = useState<number>(0);
 
   const contextValue: MyContextType = {
     state,
     dispatch,
-    value,
-    setValue,
   };
 
   return (

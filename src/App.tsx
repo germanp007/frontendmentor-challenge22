@@ -1,21 +1,37 @@
-import { ChangeEvent, useContext, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { ActionType, MyContext } from "./context/context";
+
 const App = () => {
   const contextValue = useContext(MyContext);
-  const [bill, setBill] = useState<number | null>(null);
-  const [people, setPeople] = useState<number | null>(null);
-  const [custom, setCustom] = useState<number | null>(null);
-  console.log(bill, people, custom);
-  const handleBillChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setBill(parseInt(e.target.value));
+  const [people, setPeople] = useState(0);
+  const handleBill = (e: ChangeEvent<HTMLInputElement>) => {
+    contextValue?.dispatch({
+      type: ActionType.UpdateBill,
+      payload: Number(e.target.value),
+    });
   };
-  const handlePeopleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setPeople(parseInt(e.target.value));
+  const handlePeople = (e: ChangeEvent<HTMLInputElement>) => {
+    setPeople(Number(e.target.value));
+    contextValue?.dispatch({
+      type: ActionType.UpdatePeople,
+      payload: people,
+    });
+  };
+  const handleTip = (tips: string) => {
+    const tip = Number(tips);
+    contextValue?.dispatch({
+      type: ActionType.UpdateTipPerson,
+      payload: (contextValue?.state.bill * (tip / 100)) / people,
+    });
   };
 
-  const handleCustomChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setCustom(parseInt(e.target.value));
-  };
+  useEffect(() => {
+    contextValue?.dispatch({
+      type: ActionType.UpdateTotalPerson,
+      payload: contextValue.state.bill / people,
+    });
+  }, [contextValue?.state.bill, people]);
+
   return (
     <main className="bg-LightGrayishCyan w-screen h-[1140px] flex flex-col justify-center items-center gap-12">
       <h1 className="text-[23.84px] text-VeryDarkCyan tracking-[0.63rem] opacity-75">
@@ -36,6 +52,7 @@ const App = () => {
             type="number"
             className="bg-VeryLightGrayishCyan w-full h-[47.66px] text-2xl text-end outline-StrongCyan text-VeryDarkCyan py-[0.365rem] px-[1.1rem]"
             placeholder="0"
+            onChange={handleBill}
           />
         </div>
         <div className="w-[80%]">
@@ -46,30 +63,35 @@ const App = () => {
             <button
               className="grid-span-1 transition-all duration-500"
               value="5"
+              onClick={() => handleTip("5")}
             >
               5%
             </button>
             <button
               className="grid-span-1 transition-all duration-500"
               value="10"
+              onClick={() => handleTip("10")}
             >
               10%
             </button>
             <button
               className="grid-span-1 transition-all duration-500"
               value="15"
+              onClick={() => handleTip("15")}
             >
               15%
             </button>
             <button
               className="grid-span-1 transition-all duration-500"
               value="25"
+              onClick={() => handleTip("25")}
             >
               25%
             </button>
             <button
               className="grid-span-1 transition-all duration-500"
               value="50"
+              onClick={() => handleTip("50")}
             >
               50%
             </button>
@@ -96,6 +118,7 @@ const App = () => {
             type="number"
             className="bg-VeryLightGrayishCyan w-full h-[47.66px] text-2xl text-end outline-StrongCyan text-VeryDarkCyan py-[0.365rem] px-[1.1rem]"
             placeholder="0"
+            onChange={handlePeople}
           />
         </div>
 
@@ -106,7 +129,9 @@ const App = () => {
               <p className="font-normal text-GrayishCyan">/ person</p>
             </div>
             <div>
-              <h3 className="text-StrongCyan text-[32px]">$0.00</h3>
+              <h3 className="text-StrongCyan text-[32px]">
+                ${contextValue?.state.tipPerson.toFixed(2)}
+              </h3>
             </div>
           </div>
           <div className="flex justify-between px-6 py-4">
@@ -115,11 +140,20 @@ const App = () => {
               <p className="font-normal text-GrayishCyan">/ person</p>
             </div>
             <div>
-              <h3 className="text-StrongCyan text-[32px]">$0.00</h3>
+              <h3 className="text-StrongCyan text-[32px]">
+                ${contextValue?.state?.totalPerson.toFixed(2)}
+              </h3>
             </div>
           </div>
           <div className="flex justify-between px-6 py-4">
-            <button className="w-full bg-StrongCyan text-VeryDarkCyan uppercase">
+            <button
+              className="w-full bg-StrongCyan text-VeryDarkCyan uppercase"
+              onClick={() =>
+                contextValue?.dispatch({
+                  type: ActionType.Reset,
+                })
+              }
+            >
               Reset
             </button>
           </div>
