@@ -52,7 +52,7 @@ export enum ActionType {
 
 export interface Action {
   type: ActionType;
-  payload: number;
+  payload?: number;
 }
 
 const myReducer: React.Reducer<MyInitialState, Action> = (state, action) => {
@@ -60,22 +60,22 @@ const myReducer: React.Reducer<MyInitialState, Action> = (state, action) => {
     case ActionType.UpdateBill:
       return {
         ...state,
-        bill: action.payload,
+        bill: action.payload as number,
       };
     case ActionType.UpdatePeople:
       return {
         ...state,
-        people: action.payload,
+        people: action.payload as number,
       };
     case ActionType.UpdatePercent:
       return {
         ...state,
-        percent: action.payload,
+        percent: action.payload as number,
       };
     case ActionType.UpdateTipPerson:
       return {
         ...state,
-        tipPerson: action.payload,
+        tipPerson: action.payload as number,
       };
     case ActionType.UpdateTotalPerson:
       return {

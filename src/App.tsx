@@ -33,7 +33,7 @@ const App = () => {
       contextValue?.dispatch({
         type: ActionType.UpdateTotalPerson,
         payload:
-          contextValue.state.bill / people + contextValue.state.tipPerson,
+          contextValue?.state.bill / people + contextValue?.state.tipPerson,
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
