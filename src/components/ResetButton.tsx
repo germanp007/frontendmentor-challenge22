@@ -17,9 +17,9 @@ const ResetButton = () => {
   };
 
   return (
-    <div className="flex justify-between px-6 py-4">
+    <div className="flex justify-between px-6 py-4 md:h-[50%j] md:items-end">
       <button
-        className="w-full bg-StrongCyan text-VeryDarkCyan uppercase"
+        className="w-full bg-StrongCyan text-VeryDarkCyan uppercase hover:bg-LightGrayishCyan transition-all duration-500"
         onClick={handleReset}
       >
         Reset

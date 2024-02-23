@@ -30,7 +30,7 @@ const InputPeople: FC<Props> = ({ setPeople }) => {
         <img
           src="../images/icon-person.svg"
           alt="dollar"
-          className="w-[14px] h-5"
+          className="w-[14px] h-4"
         />
       </span>
       <input
