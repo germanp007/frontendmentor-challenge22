@@ -1,8 +1,21 @@
-import React, { ReactNode, createContext, useReducer } from "react";
+import React, {
+  ReactNode,
+  createContext,
+  useReducer,
+  useRef,
+  useState,
+} from "react";
 
 export interface MyContextType {
   state: MyInitialState;
   dispatch: React.Dispatch<Action>;
+  bill: boolean;
+  setBill: React.Dispatch<React.SetStateAction<boolean>>;
+  peopleRef: React.MutableRefObject<HTMLInputElement | null>;
+  billRef: React.MutableRefObject<HTMLInputElement | null>;
+  customRef: React.MutableRefObject<HTMLInputElement | null>;
+  peopleInput: boolean;
+  setPeopleInput: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface MyContextProviderProps {
@@ -84,6 +97,12 @@ const myReducer: React.Reducer<MyInitialState, Action> = (state, action) => {
 };
 
 const MyContextProvider: React.FC<MyContextProviderProps> = ({ children }) => {
+  const [bill, setBill] = useState(false);
+
+  const [peopleInput, setPeopleInput] = useState(false);
+  const peopleRef = useRef<HTMLInputElement>(null);
+  const billRef = useRef<HTMLInputElement>(null);
+  const customRef = useRef<HTMLInputElement>(null);
   const [state, dispatch] = useReducer<React.Reducer<MyInitialState, Action>>(
     myReducer,
     initialState
@@ -92,6 +111,13 @@ const MyContextProvider: React.FC<MyContextProviderProps> = ({ children }) => {
   const contextValue: MyContextType = {
     state,
     dispatch,
+    bill,
+    setBill,
+    peopleRef,
+    billRef,
+    customRef,
+    peopleInput,
+    setPeopleInput,
   };
 
   return (
