@@ -1,11 +1,27 @@
-const InputPeople = () => {
+import { ChangeEvent, FC, useContext } from "react";
+import { ActionType, MyContext } from "../context/context";
+
+type Props = {
+  setPeople: React.Dispatch<React.SetStateAction<number>>;
+};
+
+const InputPeople: FC<Props> = ({ setPeople }) => {
+  const contextValue = useContext(MyContext);
+
+  const handlePeople = (e: ChangeEvent<HTMLInputElement>) => {
+    setPeople(Number(e.target.value));
+    contextValue?.dispatch({
+      type: ActionType.UpdatePeople,
+      payload: Number(e.target.value),
+    });
+  };
   return (
     <div className="relative w-[85%] flex flex-col">
       <div className="flex justify-between">
         <span className=" text-DarkGrayishCyan font-light">
           Number of people
         </span>
-        {peopleInput && (
+        {contextValue?.peopleInput && (
           <span className=" text-Error font-light">Can't be zero</span>
         )}
       </div>
@@ -20,7 +36,7 @@ const InputPeople = () => {
       <input
         type="number"
         className={`bg-VeryLightGrayishCyan w-full h-[47.66px] text-2xl text-end outline-StrongCyan text-VeryDarkCyan py-[0.365rem] px-[1.1rem] ${
-          peopleInput ? "ring-1 ring-Error" : ""
+          contextValue?.peopleInput ? "ring-1 ring-Error" : ""
         }`}
         placeholder="0"
         ref={contextValue?.peopleRef}
