@@ -28,19 +28,6 @@ const App = () => {
     });
   };
 
-  // const handleReset = () => {
-  //   if (contextValue?.peopleRef.current) {
-  //     contextValue.peopleRef.current.value = "";
-  //   }
-  //   if (contextValue?.billRef.current) {
-  //     contextValue.billRef.current.value = "";
-  //   }
-  //   if (contextValue?.customRef.current) {
-  //     contextValue.customRef.current.value = "";
-  //   }
-  //   contextValue?.dispatch({ type: ActionType.Reset, payload: undefined });
-  // };
-
   useEffect(() => {
     if (contextValue) {
       contextValue?.dispatch({
@@ -53,13 +40,17 @@ const App = () => {
   }, [contextValue?.state.tipPerson, people]);
 
   return (
-    <main className="bg-LightGrayishCyan w-screen h-[1140px] flex flex-col justify-center items-center gap-12">
+    <main className="bg-LightGrayishCyan w-screen h-[1140px] flex flex-col justify-center items-center gap-12 md:h-[780px]">
       <Title />
-      <article className="bg-White w-full max-w-[500px]  h-[837px] rounded-2xl flex flex-col  items-center justify-center gap-10">
-        <InputBill />
-        <SelectTip handleTip={handleTip} />
-        <InputPeople setPeople={setPeople} />
-        <ResultTips />
+      <article className="bg-White w-full max-w-[500px]  h-[837px] rounded-2xl flex flex-col  items-center justify-center gap-10 md:flex-row md:max-w-[920px] md:h-[481px] md:gap-0">
+        <div className="flex flex-col items-center w-full gap-10">
+          <InputBill />
+          <SelectTip handleTip={handleTip} />
+          <InputPeople setPeople={setPeople} />
+        </div>
+        <div className="flex flex-col items-center w-full md:h-full py-8">
+          <ResultTips />
+        </div>
       </article>
     </main>
   );
