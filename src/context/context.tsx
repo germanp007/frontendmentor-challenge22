@@ -67,7 +67,7 @@ const myReducer: React.Reducer<MyInitialState, Action> = (state, action) => {
     case ActionType.UpdateTotalPerson:
       return {
         ...state,
-        totalPerson: action.payload,
+        totalPerson: action.payload || 0,
       };
     case ActionType.Reset:
       return {
@@ -79,14 +79,6 @@ const myReducer: React.Reducer<MyInitialState, Action> = (state, action) => {
       };
 
     default:
-      return {
-        bill: 0,
-        percent: 0,
-        people: 0,
-        tipPerson: 0,
-        totalPerson: 0,
-      };
-
       return state;
   }
 };

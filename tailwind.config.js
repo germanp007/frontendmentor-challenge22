@@ -11,6 +11,7 @@ export default {
         LightGrayishCyan: "hsl(185, 41%, 84%)",
         VeryLightGrayishCyan: "hsl(189, 41%, 97%)",
         White: "hsl(0, 0%, 100%)",
+        Error: "rgb(255, 69, 0)",
       },
     },
   },
